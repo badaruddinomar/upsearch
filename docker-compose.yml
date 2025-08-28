@@ -18,3 +18,43 @@ services:
       - "27017:27017"
     volumes:
       - ./docker-volumes/data:/data/db
+
+  mysql:
+    container_name: mysql_container
+    image: mysql:latest
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: upsearch_auth
+      MYSQL_USER: upsearch
+      MYSQL_PASSWORD: upsearch_password
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./docker-volumes/mysql:/var/lib/mysql
+
+  postgres:
+    container_name: postgres_container
+    image: postgres:latest
+    restart: always
+    environment:
+      POSTGRES_USER: upsearch
+      POSTGRES_PASSWORD: upsearch_password
+      POSTGRES_DB: upsearch_reviews
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./docker-volumes/postgres:/var/lib/postgresql
+
+  rabbitmq:
+    container_name: rabbitmq_container
+    image: rabbitmq:3.13-7-management
+    restart: always
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - ./docker-volumes/rabbitmq:/var/lib/rabbitmq
+
+# start from 25 services
